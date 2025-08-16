@@ -1,5 +1,4 @@
 package tictactoe;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Objects;
 import java.util.Scanner;
@@ -7,16 +6,6 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        ArrayList<Integer> deleteList = new ArrayList<>();
-        deleteList.add(2);
-        deleteList.add(1);
-        arrayList.add(3);
-        arrayList.add(2);
-        arrayList.add(1);
-        arrayList.removeAll(deleteList);
-
         Scanner scanner = new Scanner(System.in);
         String command;
 
@@ -31,7 +20,6 @@ public class Main {
             }
 
             if (parameters[0].equals("start")) {
-                boolean badParameters = true;
                 String player1 = parameters[1];
                 String player2 = parameters[2];
 
@@ -72,14 +60,10 @@ public class Main {
                     p2 = new HumanPlayer('O');
                 }
 
-                //Player p1 = new Player('X', player1.equals("easy") ? Player.PlayerType.AI : Player.PlayerType.HUMAN);
-                //Player p2 = new Player('O', player2.equals("easy") ? Player.PlayerType.AI : Player.PlayerType.HUMAN);
-
                 board.printSimpleBoard();
                 while(board.getGameState() == Board.GameStatus.ONGOING) {
-                    int nextMove = 0;
+                    int nextMove;
                     do {
-                        boolean invalidMove = true;
                         if(board.getCurrentPlayer() == 'X') {
                             nextMove = p1.getNextMove(board);
                         } else {
@@ -89,100 +73,13 @@ public class Main {
                     board.printSimpleBoard();
                 }
                 switch(board.getGameState()) {
-                    case Board.GameStatus.O_WIN -> System.out.println("O wins");
-                    case Board.GameStatus.X_WIN -> System.out.println("X wins");
-                    case Board.GameStatus.ONGOING -> System.out.println("Game not finished");
-                    case Board.GameStatus.DRAW -> System.out.println("Draw");
+                    case O_WIN -> System.out.println("O wins");
+                    case X_WIN -> System.out.println("X wins");
+                    case ONGOING -> System.out.println("Game not finished");
+                    case DRAW -> System.out.println("Draw");
                 }
             }
         } while (!Objects.equals(command, "exit"));
 
     }
-
-
-/*
-    private void OneEasyGame() {
-        Board board = new Board();
-        Player player = new Player('O', Player.PlayerType.AI);
-        Scanner scanner = new Scanner(System.in);
-
-        board.printSimpleBoard();
-        while(board.getGameState() == Board.GameStatus.ONGOING) {
-            boolean validInput = false;
-            if(board.getCurrentPlayer() == 'X') {
-                do {
-                    int x;
-                    int y;
-                    System.out.print("Enter the coordinates: > ");
-                    try {
-                        x = scanner.nextInt();
-                        y = scanner.nextInt();
-                    } catch (InputMismatchException e) {
-                        System.out.println("You should enter numbers!");
-                        scanner.nextLine();
-                        continue;
-                    }
-
-                    if (board.setCell(x, y)) {
-                        validInput = true;
-                    }
-                } while (!validInput);
-            } else {
-                System.out.println("Making move level \"easy\"");
-                do {
-                    validInput = board.setCell(player.getNextMove(board));
-                } while (!validInput);
-            }
-            board.printSimpleBoard();
-        }
-        switch(board.getGameState()) {
-            case Board.GameStatus.O_WIN -> System.out.println("O wins");
-            case Board.GameStatus.X_WIN -> System.out.println("X wins");
-            case Board.GameStatus.ONGOING -> System.out.println("Game not finished");
-            case Board.GameStatus.DRAW -> System.out.println("Draw");
-        }
-
-    }
-
-    private void SimpleGame() {
-        // Get the current status of the board
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the cells: > ");
-        String initialStatus = scanner.nextLine();
-        Board board = new Board(initialStatus);
-        board.printSimpleBoard();
-
-        boolean validInput = false;
-        Board.GameStatus winner = Board.GameStatus.ONGOING;
-
-        do {
-            int x;
-            int y;
-            System.out.print("Enter coordinates: > ");
-            try {
-                x = scanner.nextInt();
-                y = scanner.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("You should enter numbers!");
-                scanner.nextLine();
-                continue;
-            }
-
-            if(board.setCell(x, y)) {
-                validInput = true;
-                board.printSimpleBoard();
-            }
-
-            winner = board.getGameState();
-
-        } while(!validInput);
-
-        switch(winner) {
-            case Board.GameStatus.O_WIN -> System.out.println("O wins");
-            case Board.GameStatus.X_WIN -> System.out.println("X wins");
-            case Board.GameStatus.ONGOING -> System.out.println("Game not finished");
-            case Board.GameStatus.DRAW -> System.out.println("Draw");
-        }
-    }
- */
 }
